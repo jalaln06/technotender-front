@@ -1,0 +1,114 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["airbnb"],
+  "plugins": ["@typescript-eslint", "react-hooks"],
+  "ignorePatterns": [
+    "craco.config.js"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "useJSXTextNode": false,
+    "sourceType": "module",
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "quotes": [2, "single"],
+    "indent": ["error", 4],
+    "import/extensions": ["error", "never"],
+    "import/no-default-export": ["warn"],
+    "import/prefer-default-export": ["off"],
+    "react/jsx-one-expression-per-line": ["off"],
+    "react/jsx-max-props-per-line": ["error", {"when": "always"}],
+    "react/jsx-filename-extension": [
+      "warn",
+      { "extensions": [".tsx", ".jsx"] }
+    ],
+    "no-nested-ternary": "off",
+    "react/jsx-indent": ["warn", 4],
+    "no-param-reassign": "off",
+    "react/jsx-indent-props": ["off"],
+    "react/jsx-props-no-spreading": ["off"],
+    "react/require-default-props": ["off"],
+    "react/destructuring-assignment": ["off"],
+    "no-unused-vars": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-unused-expressions": "off",
+    "@typescript-eslint/no-unused-expressions": "error",
+    "@typescript-eslint/member-delimiter-style": ["warn",{"multiline": {"delimiter": "semi"}}],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error", {"typedefs": false, "functions":  false}],
+    "object-curly-spacing": ["error", "never"],
+    "arrow-parens": ["error", "as-needed"],
+    "comma-dangle": ["error", "always-multiline"],
+    "react/jsx-tag-spacing": ["error", {"beforeSelfClosing": "always"}],
+    "max-len": ["warn", {"code": 120}],
+    "linebreak-style": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/order": [
+      "warn",
+      {
+        "newlines-between": "always",
+        "groups": [
+          "external",
+          [
+            "index",
+            "sibling",
+            "parent",
+            "internal",
+            "builtin",
+            "object",
+            "type"
+          ],
+          "unknown"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "*.+(less|svg)",
+            "group": "unknown",
+            "patternOptions": {
+              "matchBase": true
+            },
+            "position": "after"
+          }
+        ],
+        "warnOnUnassignedImports": true
+      }
+    ]
+
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.stories.*"
+      ],
+      "rules": {
+        "import/no-default-export": "off",
+        "import/no-anonymous-default-export": "off",
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
+}
