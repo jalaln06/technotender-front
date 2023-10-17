@@ -7,13 +7,9 @@ node 18+
 copy .env.sample to .env
 
 #### starting project
-yarn
-
-yarn dev
+yarn && yarn dev
 
 **or**
 
-pnpm install
-
-pnpm dev
+pnpm install && pnpm dev
 
