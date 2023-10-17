@@ -8,7 +8,7 @@ import {
 import TextArea from 'antd/es/input/TextArea';
 import {useNavigate} from 'react-router-dom';
 
-import {CreateTenderForFields} from './constants/tender-create-form.constants';
+import {CreateTenderFormFields} from './constants/tender-create-form.constants';
 import {EquipmentSelectOptions} from '../../core/models/equipment.model';
 import {CreateTenderRequest, useCreateTenderMutation} from '../../store/services/tenders/tenders.api';
 import {APP_URLS} from '../../constants/urls/urls.constants';
@@ -43,7 +43,7 @@ export const TenderCreateForm = () => {
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    name={CreateTenderForFields.equipmentType}
+                    name={CreateTenderFormFields.equipmentType}
                     label="Тип техники"
                 >
                     <Select
@@ -53,19 +53,19 @@ export const TenderCreateForm = () => {
                     />
                 </Form.Item>
                 <Form.Item
-                    name={CreateTenderForFields.startTime}
+                    name={CreateTenderFormFields.startTime}
                     label="Даты работ"
                 >
                     <DatePicker.RangePicker />
                 </Form.Item>
                 <Form.Item
-                    name={CreateTenderForFields.address}
+                    name={CreateTenderFormFields.address}
                     label="Адрес работ"
                 >
                     <Input placeholder="Введите адрес работ" />
                 </Form.Item>
                 <Form.Item
-                    name={CreateTenderForFields.description}
+                    name={CreateTenderFormFields.description}
                     label="Описание"
                 >
                     <TextArea

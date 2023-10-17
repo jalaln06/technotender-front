@@ -10,7 +10,7 @@ import './tenders.less';
 export const Tenders = () => {
     // should be used when api will be implemented
     const {data: _tenders} = useGetTendersQuery();
-    console.log(tenders);
+    console.log(_tenders);
     return (
         <div className="tender-page">
             <Typography.Title

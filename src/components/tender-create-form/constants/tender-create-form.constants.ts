@@ -1,4 +1,4 @@
-export enum CreateTenderForFields {
+export enum CreateTenderFormFields {
     address = 'tenderAddress',
     type = 'tenderType',
     equipmentType = 'tenderTechType',
