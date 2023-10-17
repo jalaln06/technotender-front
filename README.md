@@ -7,7 +7,9 @@ node 18+
 copy .env.sample to .env
 
 #### starting project
+yarn
+yarn dev
+**or**
 pnpm install
 pnpm dev
 
-if you don't have pnpm feel free to use yarn
