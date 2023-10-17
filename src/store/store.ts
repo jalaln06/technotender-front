@@ -1,16 +1,14 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {setupListeners} from '@reduxjs/toolkit/query';
 
-import {tendersApi} from './services/tenders/tenders.api';
+import {middlewares} from './store.middlewares';
+import {storeReducer} from './store.reducer';
 
 export const store = configureStore({
-    reducer: {
-        // Add the generated reducer as a specific top-level slice
-        [tendersApi.reducerPath]: tendersApi.reducer,
-    },
+    reducer: storeReducer,
     // Adding the api middleware enables caching, invalidation, polling,
     // and other useful features of `rtk-query`.
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(tendersApi.middleware),
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(middlewares),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

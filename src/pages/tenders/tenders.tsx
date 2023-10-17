@@ -4,14 +4,13 @@ import {Divider, Space, Typography} from 'antd';
 import {tenders} from '../mocks';
 import {TenderComponent} from '../../components/tender';
 import {useGetTendersQuery} from '../../store/services/tenders/tenders.api';
-import {EquipmentType} from '../../core/models/equipment.model';
 
 import './tenders.less';
 
 export const Tenders = () => {
     // should be used when api will be implemented
-    const {data: _tenders} = useGetTendersQuery({techType: EquipmentType.Crane});
-
+    const {data: _tenders} = useGetTendersQuery();
+    console.log(tenders);
     return (
         <div className="tender-page">
             <Typography.Title

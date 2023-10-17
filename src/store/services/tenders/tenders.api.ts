@@ -1,11 +1,9 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {createApi} from '@reduxjs/toolkit/query/react';
 
 import {EquipmentType} from '../../../core/models/equipment.model';
+import {baseQuery} from '../base-query';
 
-export interface GetTendersRequest {
-    techType: EquipmentType;
-}
-
+// todo: should be another response
 export interface GetTendersResponse {
     data: {
         name: string;
@@ -18,18 +16,37 @@ export interface GetTendersResponse {
     }[];
 }
 
+export interface CreateTenderRequest {
+    tenderAddress: string;
+    tenderType?: string;
+    tenderTechType: EquipmentType;
+    tenderDescription: string;
+    tenderCompany?: string;
+    tenderStartTime: string;
+    tenderAdditionalInfo?: string;
+}
+
 export const tendersApi = createApi({
     reducerPath: 'tendersApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_API_URL}/tender`,
-    }),
+    baseQuery: baseQuery('tender'),
     tagTypes: ['Tenders'],
     endpoints: builder => ({
-        getTenders: builder.query<GetTendersRequest, GetTendersRequest>({
-            query: args => ({url: '/', params: {...args}}),
+        getTenders: builder.query<GetTendersResponse, void>({
+            query: () => ({url: '/by-user'}),
             providesTags: ['Tenders'],
+        }),
+        createTender: builder.mutation<any, CreateTenderRequest>({
+            query: data => ({
+                url: '',
+                method: 'POST',
+                body: {...data, tenderStartTime: new Date().toISOString()},
+            }),
+            invalidatesTags: ['Tenders'],
         }),
     }),
 });
 
-export const {useGetTendersQuery} = tendersApi;
+export const {
+    useGetTendersQuery,
+    useCreateTenderMutation,
+} = tendersApi;
