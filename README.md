@@ -8,10 +8,12 @@ copy .env.sample to .env
 
 #### starting project
 yarn
+
 yarn dev
 
 **or**
 
 pnpm install
+
 pnpm dev
 
