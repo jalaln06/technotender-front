@@ -1,7 +1,9 @@
 import React from 'react';
-import {Card, Typography} from 'antd';
+import {Card, Typography, Button} from 'antd';
+import {useNavigate} from 'react-router-dom';
 
 import {formatDateDMY} from '../../constants/date.contants';
+import {APP_URLS} from '../../constants/urls/urls.constants';
 
 import './tender.less';
 
@@ -21,6 +23,10 @@ export interface TenderProps {
 }
 
 export const TenderComponent = ({tender, showDescription}: TenderProps) => {
+    const navigate = useNavigate();
+    const handleOpenRespond = () => {
+        navigate(APP_URLS.CREATE_RESPOND);
+    };
     const {
         name, period, address, description,
     } = tender;
@@ -29,6 +35,15 @@ export const TenderComponent = ({tender, showDescription}: TenderProps) => {
             className="tender-card"
             title={name}
             bordered={false}
+            extra={(
+                <Button
+                    type="primary"
+                    shape="round"
+                    size="small"
+                    onClick={handleOpenRespond}
+                >Откликнуться
+                </Button>
+            )}
         >
             <Typography.Text type="secondary">
                 Даты работ: {formatDateDMY(period.from)} - {formatDateDMY(period.to)}

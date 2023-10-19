@@ -4,6 +4,7 @@ import {useEffect} from 'react';
 
 import {Tenders} from './pages/tenders';
 import {CreateTenderPage} from './pages/create-tender';
+import {CreateRespondPage} from './pages/create-respond';
 import {AuthPage} from './pages/auth';
 import {Theme} from './theme';
 import {APP_URLS} from './constants/urls/urls.constants';
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
         path: APP_URLS.CREATE_TENDER,
         element: <ProtectedRoute component={<CreateTenderPage />} />,
+    },
+    {
+        path: APP_URLS.CREATE_RESPOND,
+        element: <ProtectedRoute component={<CreateRespondPage />} />,
     },
 ]);
 
