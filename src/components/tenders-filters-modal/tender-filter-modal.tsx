@@ -8,7 +8,11 @@ import {EquipmentSelectOptions} from '../../core/models/equipment.model';
 
 import './tender-filters-modal.less';
 
-export const TenderFilterComponent = ({onResult}) => {
+export interface FilterProps {
+    onResult: any;
+}
+
+export const TenderFilterComponent = ({onResult}: FilterProps) => {
     const [modalVisibility, setModalVisibility] = useState(false);
 
     const handleApplyFilter = () => {
@@ -20,7 +24,7 @@ export const TenderFilterComponent = ({onResult}) => {
 
     const onCheckBoxChange = (e: CheckboxChangeEvent) => {
         const value = e.target.value as never;
-        onResult(prevList => {
+        onResult((prevList: any) => {
             const updatedList = [...prevList];
             const index = updatedList.indexOf(value);
             if (index !== -1) {

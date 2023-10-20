@@ -10,7 +10,7 @@ import './tenders.less';
 
 export const Tenders = () => {
     const [checkedList, setCheckedList] = useState<never[]>([]);
-    const handleResult = data => {
+    const handleResult = (data: React.SetStateAction<never[]>) => {
         setCheckedList(data);
     };
     const {data: _tenders} = useGetTendersQuery();
