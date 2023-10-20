@@ -26,6 +26,12 @@ export interface CreateTenderRequest {
     tenderAdditionalInfo?: string;
 }
 
+export interface CreateResponseRequest {
+    equipmentName: string;
+    equipmentCost: number;
+    responseComment?: string;
+}
+
 export const tendersApi = createApi({
     reducerPath: 'tendersApi',
     baseQuery: baseQuery('tender'),
@@ -43,10 +49,19 @@ export const tendersApi = createApi({
             }),
             invalidatesTags: ['Tenders'],
         }),
+        createResponse: builder.mutation<any, CreateResponseRequest>({
+            query: data => ({
+                url: '',
+                method: 'POST',
+                body: {...data},
+            }),
+            invalidatesTags: ['Tenders'],
+        }),
     }),
 });
 
 export const {
     useGetTendersQuery,
     useCreateTenderMutation,
+    useCreateResponseMutation,
 } = tendersApi;

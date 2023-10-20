@@ -1,14 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Divider, Space, Typography} from 'antd';
 
 import {tenders} from '../mocks';
 import {TenderComponent} from '../../components/tender';
+import {TenderFilterComponent} from '../../components/tenders-filters-modal';
 import {useGetTendersQuery} from '../../store/services/tenders/tenders.api';
 
 import './tenders.less';
 
+import {EquipmentType} from 'src/core/models/equipment.model';
+
 export const Tenders = () => {
-    // should be used when api will be implemented
+    const [checkedList, setCheckedList] = useState<EquipmentType[]>([]);
+    const handleResult = (data: React.SetStateAction<EquipmentType[]>) => {
+        setCheckedList(data);
+    };
     const {data: _tenders} = useGetTendersQuery();
     console.log(_tenders);
     return (
@@ -18,7 +24,9 @@ export const Tenders = () => {
                 level={4}
             >Тендеры
             </Typography.Title>
+            <TenderFilterComponent onResult={handleResult} />
             <Divider className="tender-divider">Сегодня</Divider>
+            <p>{checkedList}</p>
             <Space
                 direction="vertical"
                 size={8}

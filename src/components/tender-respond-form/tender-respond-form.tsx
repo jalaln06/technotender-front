@@ -1,19 +1,36 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import useForm from 'antd/lib/form/hooks/useForm';
 import {
-    Button, Form, Input, Typography,
+    Button, Form, Input, Typography, notification,
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import {useNavigate} from 'react-router-dom';
 
+import {CreateResponseFormFields} from './constants/tender-response-form.constants';
+import {CreateResponseRequest, useCreateResponseMutation} from '../../store/services/tenders/tenders.api';
 import {APP_URLS} from '../../constants/urls/urls.constants';
 
 import './tender-respond-form.less';
 
 export const TenderRespondForm = () => {
     const navigate = useNavigate();
-    const handleSubmit = () => {
-        navigate(APP_URLS.TENDERS);
+
+    const [form] = useForm<CreateResponseRequest>();
+    // todo add error logger to RTK
+    const [createResponse, {isLoading, isError, isSuccess}] = useCreateResponseMutation();
+    const handleSubmit = (values: CreateResponseRequest) => {
+        createResponse(values);
     };
+
+    useEffect(() => {
+        if (isSuccess) {
+            notification.success({
+                message: 'Тендер создан',
+            });
+            navigate(APP_URLS.TENDERS);
+        }
+    }, [isSuccess]);
+
     return (
         <div className="tender-respond-form">
             <Typography.Title level={4}>Название тендера</Typography.Title>
@@ -34,16 +51,26 @@ export const TenderRespondForm = () => {
                 style={{
                     width: 400,
                 }}
+                form={form}
                 onFinish={handleSubmit}
             >
 
-                <Form.Item label="Техника">
+                <Form.Item
+                    label="Техника"
+                    name={CreateResponseFormFields.name}
+                >
                     <Input placeholder="Предложите технику" />
                 </Form.Item>
-                <Form.Item label="Стоимость смены, ₽">
+                <Form.Item
+                    label="Стоимость смены, ₽"
+                    name={CreateResponseFormFields.cost}
+                >
                     <Input placeholder="10 000" />
                 </Form.Item>
-                <Form.Item label="Комментарий">
+                <Form.Item
+                    label="Комментарий"
+                    name={CreateResponseFormFields.responseComment}
+                >
                     <TextArea
                         rows={4}
                         placeholder="Техника новая, доставка бесплатно и т.д."
@@ -53,6 +80,7 @@ export const TenderRespondForm = () => {
                     style={{width: '100%'}}
                     htmlType="submit"
                     type="primary"
+                    loading={isLoading}
                 >
                     Предложить
                 </Button>
