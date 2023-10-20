@@ -8,6 +8,8 @@ import {EquipmentSelectOptions} from '../../core/models/equipment.model';
 
 import './tender-filters-modal.less';
 
+import {EquipmentType} from 'src/core/models/equipment.model';
+
 export interface FilterProps {
     onResult: any;
 }
@@ -23,7 +25,7 @@ export const TenderFilterComponent = ({onResult}: FilterProps) => {
     };
 
     const onCheckBoxChange = (e: CheckboxChangeEvent) => {
-        const value = e.target.value as never;
+        const value = e.target.value as EquipmentType;
         onResult((prevList: any) => {
             const updatedList = [...prevList];
             const index = updatedList.indexOf(value);

@@ -8,9 +8,11 @@ import {useGetTendersQuery} from '../../store/services/tenders/tenders.api';
 
 import './tenders.less';
 
+import {EquipmentType} from 'src/core/models/equipment.model';
+
 export const Tenders = () => {
-    const [checkedList, setCheckedList] = useState<never[]>([]);
-    const handleResult = (data: React.SetStateAction<never[]>) => {
+    const [checkedList, setCheckedList] = useState<EquipmentType[]>([]);
+    const handleResult = (data: React.SetStateAction<EquipmentType[]>) => {
         setCheckedList(data);
     };
     const {data: _tenders} = useGetTendersQuery();
