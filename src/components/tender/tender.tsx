@@ -21,7 +21,6 @@ export interface TenderProps {
     tender: Tender;
     showDescription?: boolean;
 }
-
 export const TenderComponent = ({tender, showDescription}: TenderProps) => {
     const navigate = useNavigate();
     const handleOpenRespond = () => {
