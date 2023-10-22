@@ -1,20 +1,35 @@
 import {createApi} from '@reduxjs/toolkit/query/react';
+import {z} from 'zod';
+import {Dayjs} from 'dayjs';
 
 import {EquipmentType} from '../../../core/models/equipment.model';
 import {baseQuery} from '../base-query';
+import {transformTenderBeforeCreateRequest} from './tenders.utils';
 
-// todo: should be another response
-export interface GetTendersResponse {
-    data: {
-        name: string;
-        period: {
-            from: Date;
-            to: Date;
-        };
-        address: string;
-        description: string;
-    }[];
-}
+const TenderSchema = z.object({
+    tenderId: z.number(),
+    tenderType: z.string().nullish(),
+    tenderTechType: z.nativeEnum(EquipmentType),
+    tenderDescription: z.string(),
+    tenderCompany: z.string().nullish(),
+    tenderStartTime: z.string(),
+    tenderEndTime: z.string(),
+    tenderAddress: z.string(),
+    tenderFinished: z.boolean(),
+    submission: z.array(z.object(
+        {
+            costDuty: z.string(),
+            machinePerformance: z.string().nullish(),
+            machineModel: z.string(),
+            submissionTime: z.string(),
+            submissionMessage: z.string().nullish(),
+        },
+    )),
+
+});
+
+export type Tender = z.infer<typeof TenderSchema>;
+export type TenderSubmission = z.infer<typeof TenderSchema>['submission'][0];
 
 export interface CreateTenderRequest {
     tenderAddress: string;
@@ -22,14 +37,9 @@ export interface CreateTenderRequest {
     tenderTechType: EquipmentType;
     tenderDescription: string;
     tenderCompany?: string;
-    tenderStartTime: string;
+    tenderStartTime: Dayjs;
+    tenderEndTime: Dayjs;
     tenderAdditionalInfo?: string;
-}
-
-export interface CreateResponseRequest {
-    equipmentName: string;
-    equipmentCost: number;
-    responseComment?: string;
 }
 
 export const tendersApi = createApi({
@@ -37,23 +47,41 @@ export const tendersApi = createApi({
     baseQuery: baseQuery('tender'),
     tagTypes: ['Tenders'],
     endpoints: builder => ({
-        getTenders: builder.query<GetTendersResponse, void>({
+        getTendersByUser: builder.query<Tender[], void>({
             query: () => ({url: '/by-user'}),
             providesTags: ['Tenders'],
+            transformResponse: (response: Tender[]) => {
+                response.forEach(v => {
+                    TenderSchema.parse(v);
+                });
+                return response;
+            },
         }),
+
+        getTendersByEquipmentType: builder.query<Tender[], EquipmentType[]>({
+            query: equipmentTypes => ({url: '/byEquipmentTypes', params: {equipmentTypes}}),
+            providesTags: ['Tenders'],
+            transformResponse: (response: Tender[]) => {
+                response.forEach(v => {
+                    TenderSchema.parse(v);
+                });
+                return response;
+            },
+        }),
+
+        getTenderById: builder.query<Tender, string | undefined>({
+            query: id => ({url: `/${id || ''}`}),
+            transformResponse: (response: Tender) => {
+                TenderSchema.parse(response);
+                return response;
+            },
+        }),
+
         createTender: builder.mutation<any, CreateTenderRequest>({
             query: data => ({
                 url: '',
                 method: 'POST',
-                body: {...data, tenderStartTime: new Date().toISOString()},
-            }),
-            invalidatesTags: ['Tenders'],
-        }),
-        createResponse: builder.mutation<any, CreateResponseRequest>({
-            query: data => ({
-                url: '',
-                method: 'POST',
-                body: {...data},
+                body: transformTenderBeforeCreateRequest(data),
             }),
             invalidatesTags: ['Tenders'],
         }),
@@ -61,7 +89,8 @@ export const tendersApi = createApi({
 });
 
 export const {
-    useGetTendersQuery,
+    useGetTendersByUserQuery,
+    useGetTendersByEquipmentTypeQuery,
+    useGetTenderByIdQuery,
     useCreateTenderMutation,
-    useCreateResponseMutation,
 } = tendersApi;

@@ -1,0 +1,30 @@
+@import "../../../styles/colors";
+
+.submission-list-item-card {
+  border-radius: 16px;
+  background: @background-primary;
+  padding: 16px;
+  cursor: pointer;
+
+  .ant-card-head {
+      display: none;
+  }
+
+  .content {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .equipment-model {
+    margin: 0 0 4px 0;
+  }
+
+  .caret {
+    transform: rotate(180deg);
+    svg {
+      stroke: antiquewhite;
+    }
+  }
+}
