@@ -3,8 +3,6 @@ import {Space, Typography} from 'antd';
 
 import {TenderSubmission} from '../../../store/services/tenders/tenders.api';
 
-import './submission.less';
-
 export interface SubmissionProps extends TenderSubmission {
 }
 

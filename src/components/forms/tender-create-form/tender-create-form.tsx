@@ -30,7 +30,7 @@ export const TenderCreateForm = () => {
             notification.success({
                 message: 'Тендер создан',
             });
-            navigate(APP_URLS.PUBLIC_TENDERS);
+            navigate(APP_URLS.MY_TENDERS);
         }
     }, [isSuccess]);
 
