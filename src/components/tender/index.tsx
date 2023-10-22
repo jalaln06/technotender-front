@@ -1,1 +1,1 @@
-export * from './tender'
+export * from './tender';

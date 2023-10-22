@@ -1,20 +1,19 @@
 import React, {useState} from 'react';
 import {
-    Modal, Button, Typography, Checkbox, Divider,
+    Modal, Button, Typography, Checkbox, Divider, Badge,
 } from 'antd';
 import {CheckboxChangeEvent} from 'antd/es/checkbox';
 
-import {EquipmentSelectOptions} from '../../core/models/equipment.model';
+import {EquipmentSelectOptions, EquipmentType} from '../../core/models/equipment.model';
 
 import './tender-filters-modal.less';
 
-import {EquipmentType} from 'src/core/models/equipment.model';
-
 export interface FilterProps {
     onResult: any;
+    selectedEquipmentTypes: EquipmentType[];
 }
 
-export const TenderFilterComponent = ({onResult}: FilterProps) => {
+export const TenderFilterComponent = ({onResult, selectedEquipmentTypes}: FilterProps) => {
     const [modalVisibility, setModalVisibility] = useState(false);
 
     const handleApplyFilter = () => {
@@ -41,16 +40,20 @@ export const TenderFilterComponent = ({onResult}: FilterProps) => {
     return (
 
         <>
-            <Button
-                type="primary"
-                onClick={openFilterList}
-            >
-                Открыть фильтры
-            </Button>
+            <Badge count={selectedEquipmentTypes.length} >
+                <Button
+                    type="link"
+                    className="btn-link"
+                    onClick={openFilterList}
+                >
+                    Фильтры
+                </Button>
+            </Badge>
             <Modal
                 open={modalVisibility}
-                title=""
+                title="Настройка объявлений"
                 onOk={handleApplyFilter}
+                onCancel={() => setModalVisibility(false)}
                 wrapClassName="tender-filter-modal"
                 footer={[
                     <div className="modal-apply-button-div">
@@ -65,17 +68,12 @@ export const TenderFilterComponent = ({onResult}: FilterProps) => {
                     </div>,
                 ]}
             >
-                <Typography.Title
-                    level={3}
-                    className="modal-title"
-                >Настройка объявлений
-                </Typography.Title>
                 <Typography.Text
                     className="modal-subtitle"
                 >Укажите типы техники по которым показывать тендеры
                 </Typography.Text>
                 {EquipmentSelectOptions.map(option => (
-                    <>
+                    <div key={option.value}>
                         <Divider className="modal-divider" />
                         <Checkbox
                             value={option.value}
@@ -83,7 +81,7 @@ export const TenderFilterComponent = ({onResult}: FilterProps) => {
                             onChange={onCheckBoxChange}
                         >{option.label}
                         </Checkbox>
-                    </>
+                    </div>
                 ))}
             </Modal>
         </>

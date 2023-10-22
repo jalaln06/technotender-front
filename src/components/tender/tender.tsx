@@ -1,65 +1,35 @@
 import React from 'react';
-import {Card, Typography, Button} from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {Typography} from 'antd';
 
-import {formatDateDMY} from '../../constants/date.contants';
-import {APP_URLS} from '../../constants/urls/urls.constants';
+import {Tender} from '../../store/services/tenders/tenders.api';
 
 import './tender.less';
 
-export interface Tender {
-    name: string;
-    period: {
-        from: Date;
-        to: Date;
-    };
-    address: string;
-    description: string;
-}
-
-export interface TenderProps {
+export interface TenderViewProps {
     tender: Tender;
-    showDescription?: boolean;
 }
 
-export const TenderComponent = ({tender, showDescription}: TenderProps) => {
-    const navigate = useNavigate();
-    const handleOpenRespond = () => {
-        navigate(APP_URLS.CREATE_RESPOND);
-    };
+export const TenderView = ({tender}: TenderViewProps) => {
     const {
-        name, period, address, description,
+        tenderAddress, tenderDescription, tenderStartTime, tenderEndTime, tenderType,
     } = tender;
+
     return (
-        <Card
-            className="tender-card"
-            title={name}
-            bordered={false}
-            extra={(
-                <Button
-                    type="primary"
-                    shape="round"
-                    size="small"
-                    onClick={handleOpenRespond}
-                >Откликнуться
-                </Button>
+        <div className="tender-view">
+            {tenderType && (
+                <Typography.Title level={3}>
+                    {tenderType.charAt(0).toUpperCase() + tenderType.slice(1)}
+                </Typography.Title>
             )}
-        >
             <Typography.Text type="secondary">
-                Даты работ: {formatDateDMY(period.from)} - {formatDateDMY(period.to)}
+                Даты работ: {tenderStartTime} - {tenderEndTime}
             </Typography.Text>
-            <Typography.Text
-                className="tender-address"
-                type="secondary"
-            >
-                {address}
+            <Typography.Text type="secondary">
+                {tenderAddress}
             </Typography.Text>
-            {showDescription
-                && (
-                    <Typography.Text type="secondary">
-                        {description}
-                    </Typography.Text>
-                )}
-        </Card>
+            <div className="description">
+                <p>{tenderDescription}</p>
+            </div>
+        </div>
     );
 };
