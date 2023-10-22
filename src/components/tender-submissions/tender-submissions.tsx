@@ -3,7 +3,7 @@ import {Divider} from 'antd';
 
 import {TenderSubmission} from '../../store/services/tenders/tenders.api';
 import {SubmissionListItem} from './submission-list-item';
-import {Submission} from './submission/submission';
+import {Submission} from './submission';
 
 export interface TenderSubmissionsProps {
     submissions: TenderSubmission[];

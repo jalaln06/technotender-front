@@ -13,7 +13,7 @@ export const submissionsApi = createApi({
     reducerPath: 'submissionsApi',
     baseQuery: baseQuery('submission'),
     endpoints: builder => ({
-        createsSubmission: builder.mutation<any, CreateSubmissionRequest>({
+        createSubmission: builder.mutation<any, CreateSubmissionRequest>({
             query: ({tenderId, ...data}) => ({
                 url: '',
                 method: 'POST',
@@ -24,4 +24,4 @@ export const submissionsApi = createApi({
     }),
 });
 
-export const {useCreatesSubmissionMutation} = submissionsApi;
+export const {useCreateSubmissionMutation} = submissionsApi;

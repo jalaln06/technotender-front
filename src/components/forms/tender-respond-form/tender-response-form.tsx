@@ -11,7 +11,7 @@ import {CreateResponseFormFields} from './constants/tender-response-form.constan
 import {APP_URL_BLOCK} from '../../../constants/urls/urls.constants';
 import {
     CreateSubmissionRequest,
-    useCreatesSubmissionMutation,
+    useCreateSubmissionMutation,
 } from '../../../store/services/submissions/submissions.api';
 
 import './tender-respond-form.less';
@@ -25,7 +25,7 @@ export const TenderResponseForm = ({tenderId}: TenderResponseFormProps) => {
     const isLowResolution = useMediaQuery('(max-width: 400px)');
 
     const [form] = useForm<CreateSubmissionRequest>();
-    const [createResponse, {isLoading, isSuccess}] = useCreatesSubmissionMutation();
+    const [createResponse, {isLoading, isSuccess}] = useCreateSubmissionMutation();
     const handleSubmit = (values: CreateSubmissionRequest) => {
         createResponse({...values, tenderId});
     };
