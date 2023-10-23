@@ -33,7 +33,7 @@ export const AuthPage = () => {
                     <div style={{marginTop: 200}}>
                         <Result
                             status="warning"
-                            title="Вам необходимо авторизоваться по ссылке из телаграм бота"
+                            title="Вам необходимо авторизоваться по ссылке из телеграмм бота"
                             extra={(
                                 <Button type="primary">
                                     Перейти в бота

@@ -20,6 +20,7 @@ export const PublicTenders = () => {
     const handleResult = (data: React.SetStateAction<EquipmentType[]>) => {
         setSelectedEquipmentTypes(data);
     };
+    console.log(tenders);
     return (
         <div className="tender-page">
             <PageHead >

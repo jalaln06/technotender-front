@@ -10,7 +10,7 @@ const TenderSchema = z.object({
     tenderId: z.number(),
     tenderType: z.string().nullish(),
     tenderTechType: z.nativeEnum(EquipmentType),
-    tenderDescription: z.string(),
+    tenderDescription: z.string().nullish(),
     tenderCompany: z.string().nullish(),
     tenderStartTime: z.string(),
     tenderEndTime: z.string(),
