@@ -13,7 +13,7 @@ export const NotFound = () => {
         <Result
             status="404"
             title="404"
-            subTitle="Sorry, the page you visited does not exist."
+            subTitle="Такой страницы не существует."
             extra={(
                 <Button
                     onClick={() => userRole && navigate(UserRoleBasedMainPage[userRole])}
