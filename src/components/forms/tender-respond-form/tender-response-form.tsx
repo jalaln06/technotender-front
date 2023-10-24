@@ -50,7 +50,8 @@ export const TenderResponseForm = ({tenderId}: TenderResponseFormProps) => {
             <Form
                 layout="vertical"
                 style={{
-                    width: isLowResolution ? '100%' : 400,
+                    width: '100%',
+                    marginTop: '20px',
                 }}
                 form={form}
                 onFinish={handleSubmit}
