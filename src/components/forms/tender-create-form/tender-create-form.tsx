@@ -36,11 +36,18 @@ export const TenderCreateForm = () => {
 
     return (
         <div className="tender-create-form">
-            <Typography.Title level={4}>Новый тендер</Typography.Title>
+            <Typography.Title
+                level={4}
+                className="title"
+            >Новый тендер
+            </Typography.Title>
             <Form
                 layout="vertical"
                 form={form}
-                style={{width: 400}}
+                style={{
+                    width: '100%',
+                    marginTop: '20px',
+                }}
                 onFinish={handleSubmit}
                 validateMessages={{
                     required: 'Пожалуйста, заполните это поле',
