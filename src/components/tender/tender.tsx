@@ -1,5 +1,5 @@
 import React from 'react';
-import {Divider, Typography} from 'antd';
+import {Typography} from 'antd';
 
 import {Tender} from '../../store/services/tenders/tenders.api';
 
@@ -30,7 +30,6 @@ export const TenderView = ({tender}: TenderViewProps) => {
             <div className="description">
                 <p>{tenderDescription}</p>
             </div>
-
         </div>
     );
 };
