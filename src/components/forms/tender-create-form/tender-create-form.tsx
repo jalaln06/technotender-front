@@ -106,7 +106,7 @@ export const TenderCreateForm = () => {
                 >
                     <TextArea
                         rows={4}
-                        placeholder="Введите описание"
+                        placeholder="Расскажите что придется делать, условия труда, оплата доставки и т.д."
                     />
                 </Form.Item>
                 <Button

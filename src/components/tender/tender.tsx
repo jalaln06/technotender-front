@@ -17,7 +17,10 @@ export const TenderView = ({tender}: TenderViewProps) => {
     return (
         <div className="tender-view">
             {tenderType && (
-                <Typography.Title level={3}>
+                <Typography.Title
+                    level={3}
+                    style={{marginTop: '16px'}}
+                >
                     {tenderType.charAt(0).toUpperCase() + tenderType.slice(1)}
                 </Typography.Title>
             )}
