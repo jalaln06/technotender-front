@@ -18,7 +18,7 @@ export const OwnerTender = () => {
     const {id} = useParams();
     const {data: tender, isLoading} = useGetTenderByIdQuery(id, {skip: !id});
     const [selectedSubmission, setSelectedSubmission] = useState<TenderSubmission | null>(null);
-    const [endoftenders, setEndOfTender] = useState<true | false>(false);
+    const [submissionNotExists, setSubmissionNotExists] = useState<true | false>(false);
     const [notifySubmissionAuthor] = useContactSubmissionAuthorMutation();
 
     const handleNextSubmission = () => {
@@ -28,7 +28,7 @@ export const OwnerTender = () => {
             if (nextIndex < tender.submission.length) {
                 setSelectedSubmission(tender.submission[nextIndex]);
             } else {
-                setEndOfTender(true);
+                setSubmissionNotExists(true);
             }
         }
     };
@@ -36,18 +36,16 @@ export const OwnerTender = () => {
     const handleBackToList = () => {
         if (tender && selectedSubmission !== null) {
             setSelectedSubmission(null);
-            setEndOfTender(false);
+            setSubmissionNotExists(false);
         }
     };
 
     const handleSubmit = () => {
         if (selectedSubmission !== null) {
-            const contactRequest: ContactSubmissionAuthorRequest = {
+            notifySubmissionAuthor({
                 tenderId: selectedSubmission.id.tenderId,
                 userId: selectedSubmission.id.userId,
-            };
-            notifySubmissionAuthor(contactRequest);
-            console.log(contactRequest);
+            });
         }
     };
 
@@ -61,7 +59,7 @@ export const OwnerTender = () => {
             {tender && (
                 <>
                     <TenderView tender={tender} />
-                    {!endoftenders && (
+                    {!submissionNotExists && (
                         <>
                             <TenderSubmissions
                                 submissions={tender.submission}
@@ -82,7 +80,7 @@ export const OwnerTender = () => {
                             )}
                         </>
                     )}
-                    {endoftenders && (
+                    {submissionNotExists && (
                         <>
                             <Typography.Title
                                 level={5}

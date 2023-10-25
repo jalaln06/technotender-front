@@ -4,7 +4,7 @@ import {Dayjs} from 'dayjs';
 
 import {EquipmentType} from '../../../core/models/equipment.model';
 import {baseQuery} from '../base-query';
-import {transformNumbersBeforeRequestContect, transformTenderBeforeCreateRequest} from './tenders.utils';
+import {transformNumbersBeforeNotifying, transformTenderBeforeCreateRequest} from './tenders.utils';
 
 const TenderSchema = z.object({
     tenderId: z.number(),
@@ -98,7 +98,7 @@ export const tendersApi = createApi({
             query: data => ({
                 url: '/notify',
                 method: 'POST',
-                body: transformNumbersBeforeRequestContect(data),
+                body: transformNumbersBeforeNotifying(data),
             }),
             invalidatesTags: ['Tenders'],
         }),
