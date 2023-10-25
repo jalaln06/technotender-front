@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {
-    Divider, Typography,
-} from 'antd';
+import React, {useMemo, useState} from 'react';
+import {Typography} from 'antd';
+import dayjs from 'dayjs';
 
 import {TenderFilterComponent} from '../../components/tenders-filters-modal';
 import {EquipmentType} from '../../core/models/equipment.model';
 import {PageHead} from '../../components/common/page-head';
-import {useGetTendersByEquipmentTypeQuery} from '../../store/services/tenders/tenders.api';
-import {TenderListRenderer} from '../../components/tender-list-renderer';
+import {Tender, useGetTendersByEquipmentTypeQuery} from '../../store/services/tenders/tenders.api';
+import {TenderListRenderer} from '../../components/tender/tender-list-renderer';
+import {GroupedTendersRenderer} from '../../components/tender/grouped-tenders-renderer';
 
 import './public-tenders.less';
 
@@ -20,6 +20,18 @@ export const PublicTenders = () => {
     const handleResult = (data: React.SetStateAction<EquipmentType[]>) => {
         setSelectedEquipmentTypes(data);
     };
+
+    const tendersGroupedByStartDay = useMemo(() => tenders?.reduce((acc, tender) => {
+        const today = dayjs(new Date()).format('YYYY-MM-DD');
+        const day = tender.tenderStartTime === today ? 'Сегодня' : tender.tenderStartTime;
+        if (acc[day]) {
+            acc[day].push(tender);
+        } else {
+            acc[day] = [tender];
+        }
+        return acc;
+    }, {} as Record<string, Tender[]>) || {}, [tenders]);
+
     return (
         <div className="tender-page">
             <PageHead >
@@ -33,13 +45,11 @@ export const PublicTenders = () => {
                     onResult={handleResult}
                 />
             </PageHead>
-            <Divider className="tender-divider">Сегодня</Divider>
             <TenderListRenderer
-                tenders={tenders}
+                tenders={tendersGroupedByStartDay}
                 isLoading={isLoading}
-                tenderItemProps={{
-                    showCreateSubmissionButton: true,
-                }}
+                listIsEmpty={Object.keys(tendersGroupedByStartDay).length === 0}
+                listItemRenderer={tenderList => <GroupedTendersRenderer tenders={tenderList} />}
             />
         </div>
     );

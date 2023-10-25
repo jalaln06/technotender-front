@@ -3,9 +3,10 @@ import {Button, Divider, Typography} from 'antd';
 import {useNavigate} from 'react-router-dom';
 
 import {PageHead} from '../../components/common/page-head';
-import {TenderListRenderer} from '../../components/tender-list-renderer';
+import {TenderListRenderer} from '../../components/tender/tender-list-renderer';
 import {useGetTendersByUserQuery} from '../../store/services/tenders/tenders.api';
 import {APP_URLS} from '../../constants/urls/urls.constants';
+import {TenderListItem} from '../../components/tender/tender-list-item';
 
 export const OwnerTenders = () => {
     const navigate = useNavigate();
@@ -27,14 +28,19 @@ export const OwnerTenders = () => {
                     Создать тендер
                 </Button>
             </PageHead>
-            <Divider className="tender-divider">Сегодня</Divider>
+            <Divider className="tender-divider" />
             <TenderListRenderer
                 tenders={tenders}
                 isLoading={isLoading}
-                tenderItemProps={{
-                    showSubmissionCount: true,
-                    openTenderViewOnCardClick: true,
-                }}
+                listIsEmpty={tenders?.length === 0}
+                listItemRenderer={tendersList => tendersList.map(tender => (
+                    <TenderListItem
+                        key={tender.tenderId}
+                        tender={tender}
+                        showSubmissionCount
+                        openTenderViewOnCardClick
+                    />
+                ))}
             />
         </div>
     );

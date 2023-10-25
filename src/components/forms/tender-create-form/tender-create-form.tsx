@@ -7,6 +7,7 @@ import {
 } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import {useNavigate} from 'react-router-dom';
+import {Dayjs} from 'dayjs';
 
 import {CreateTenderFormFields} from './constants/tender-create-form.constants';
 import {EquipmentSelectOptions} from '../../../core/models/equipment.model';
@@ -17,12 +18,23 @@ import './tender-create-form.less';
 
 export const TenderCreateForm = () => {
     const navigate = useNavigate();
-    const [form] = useForm<CreateTenderRequest>();
-    // todo add error logger to RTK
-    const [createTender, {isLoading, isSuccess}] = useCreateTenderMutation();
 
+    const [form] = useForm<CreateTenderRequest>();
+    const [tenderStartTime, setTenderStartTime] = React.useState<Dayjs | null>(null);
+    const [tenderEndTime, setTenderEndTime] = React.useState<Dayjs | null>(null);
+
+    const [createTender, {isLoading, isSuccess}] = useCreateTenderMutation();
     const handleSubmit = (values: CreateTenderRequest) => {
         createTender(values);
+    };
+
+    const handleValuesChange = (changedValues: any) => {
+        if (Object.keys(changedValues).includes(CreateTenderFormFields.startTime)) {
+            setTenderStartTime(changedValues[CreateTenderFormFields.startTime]);
+        }
+        if (Object.keys(changedValues).includes(CreateTenderFormFields.endTime)) {
+            setTenderEndTime(changedValues[CreateTenderFormFields.endTime]);
+        }
     };
 
     useEffect(() => {
@@ -39,7 +51,8 @@ export const TenderCreateForm = () => {
             <Typography.Title
                 level={4}
                 className="title"
-            >Новый тендер
+            >
+                Новый тендер
             </Typography.Title>
             <Form
                 layout="vertical"
@@ -52,6 +65,7 @@ export const TenderCreateForm = () => {
                 validateMessages={{
                     required: 'Пожалуйста, заполните это поле',
                 }}
+                onValuesChange={changedValues => handleValuesChange(changedValues)}
             >
                 <Form.Item
                     name={CreateTenderFormFields.name}
@@ -69,6 +83,8 @@ export const TenderCreateForm = () => {
                 >
                     <Select
                         showSearch
+                        filterOption={(input: string, option: any) => option?.label?.toLowerCase()
+                            .includes(input.toLowerCase())}
                         options={EquipmentSelectOptions}
                         placeholder="Выберите технику"
                     />
@@ -80,6 +96,7 @@ export const TenderCreateForm = () => {
                 >
                     <DatePicker
                         style={{width: '100%'}}
+                        disabledDate={d => d.isBefore(new Date()) || d.isAfter(tenderEndTime)}
                         placeholder="Выберите дату"
                     />
                 </Form.Item>
@@ -90,6 +107,8 @@ export const TenderCreateForm = () => {
                 >
                     <DatePicker
                         style={{width: '100%'}}
+                        disabled={!tenderStartTime}
+                        disabledDate={d => d.isBefore(tenderStartTime)}
                         placeholder="Выберите дату"
                     />
                 </Form.Item>

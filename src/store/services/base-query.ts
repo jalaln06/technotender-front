@@ -8,7 +8,7 @@ export const baseQuery = (url: string) => fetchBaseQuery({
     prepareHeaders: (headers, {getState, endpoint}) => {
         const {token} = (getState() as AppState)[AuthSliceName];
         if (token && endpoint !== 'refresh') {
-            headers.set('Authorization', `Bearer ${token.substring(1, token.length - 1)}`);
+            headers.set('Authorization', `Bearer ${token}`);
         }
         return headers;
     },

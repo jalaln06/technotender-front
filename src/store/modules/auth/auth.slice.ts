@@ -9,7 +9,7 @@ const persistedToken = localStorage.getItem('token');
 const authSlice = createSlice({
     name: AuthSliceName,
     initialState: {
-        token: persistedToken,
+        token: persistedToken ? JSON.parse(persistedToken) : null,
     } as AuthSliceState,
     reducers: {
         setToken(state, action) {

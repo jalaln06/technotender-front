@@ -7,7 +7,7 @@ import {useQueryParams} from '../../hooks/use-query-params.hook';
 import {useAppDispatch, useAppSelector} from '../../hooks/store.hook';
 import {authActions, authSelectors} from '../../store/modules/auth/auth.slice';
 import {useGetUserRoleQuery} from '../../store/services/auth/auth.api';
-import {UserRoleBasedMainPage} from '../../store/modules/auth/auth.slice.types';
+import {UserRole, UserRoleBasedMainPage} from '../../store/modules/auth/auth.slice.types';
 
 export const AuthPage = () => {
     const dispatch = useAppDispatch();
@@ -15,9 +15,9 @@ export const AuthPage = () => {
 
     const savedToken = useAppSelector(authSelectors.selectAuthToken);
     const [_, setLocalStorageToken] = useLocalStorage<string | null>('token', null);
-
+    const [__, setLocalStorageUserRole] = useLocalStorage<UserRole | null>('role', null);
     const token = getQueryParam('token');
-    const {data: userRole} = useGetUserRoleQuery({token: token || savedToken});
+    const {data: userRole} = useGetUserRoleQuery({token: token || savedToken}, {skip: !token || !savedToken});
 
     useEffect(() => {
         if (token) {
@@ -25,6 +25,12 @@ export const AuthPage = () => {
             setLocalStorageToken(token);
         }
     }, [token]);
+
+    useEffect(() => {
+        if (userRole) {
+            setLocalStorageUserRole(userRole);
+        }
+    }, [userRole]);
 
     return (
         <>

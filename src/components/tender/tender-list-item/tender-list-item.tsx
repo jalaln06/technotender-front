@@ -5,8 +5,8 @@ import {
 import {useNavigate} from 'react-router-dom';
 import cn from 'classnames';
 
-import {APP_URLS} from '../../constants/urls/urls.constants';
-import {Tender} from '../../store/services/tenders/tenders.api';
+import {APP_URLS} from '../../../constants/urls/urls.constants';
+import {Tender} from '../../../store/services/tenders/tenders.api';
 
 import './tender-list-item.less';
 

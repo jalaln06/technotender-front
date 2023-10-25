@@ -6,7 +6,7 @@ import {useParams} from 'react-router-dom';
 
 import {ButtonBack} from '../../components/common/buttons/button-back';
 import {
-    ContactSubmissionAuthorRequest, TenderSubmission, useContactSubmissionAuthorMutation, useGetTenderByIdQuery,
+    TenderSubmission, useContactSubmissionAuthorMutation, useGetTenderByIdQuery,
 } from '../../store/services/tenders/tenders.api';
 import {LoadingWrapper} from '../../components/common/loading-wrapper';
 import {TenderView} from '../../components/tender';
@@ -68,13 +68,14 @@ export const OwnerTender = () => {
                             />
                             {selectedSubmission && (
                                 <div className="controls">
-                                    <p>{selectedSubmission.id.userId}</p>
                                     <Button
                                         type="default"
                                         onClick={handleNextSubmission}
-                                    >Следующая
+                                    >
+                                        Следующая
                                     </Button>
-                                    <Button type="primary">Связаться
+                                    <Button type="primary">
+                                        Связаться
                                     </Button>
                                 </div>
                             )}

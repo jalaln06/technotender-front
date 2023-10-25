@@ -1,6 +1,5 @@
 import {useRoutes} from 'react-router-dom';
 import {useLocalStorage} from 'usehooks-ts';
-import {useEffect} from 'react';
 
 import {CreateTenderPage} from './pages/create-tender';
 import {AuthPage} from './pages/auth';
@@ -8,7 +7,6 @@ import {Theme} from './theme';
 import {APP_URLS} from './constants/urls/urls.constants';
 import {ProtectedRoute} from './components/routing';
 import {TenderSubmissionSuccessPage} from './pages/tender-submission-success';
-import {useGetUserRoleQuery} from './store/services/auth/auth.api';
 import {UserRole} from './store/modules/auth/auth.slice.types';
 import {NotFound} from './pages/not-found/not-found';
 import {PublicTenders} from './pages/public-tenders';
@@ -48,15 +46,7 @@ const UserRoleAwareRoutes = {
 };
 
 export function App() {
-    const {data: userRole} = useGetUserRoleQuery({token: undefined});
-    const [persistedUserRole, saveUserRoleToLocalStorage] = useLocalStorage<UserRole | null>('role', null);
-    const role = userRole || persistedUserRole;
-
-    useEffect(() => {
-        if (userRole && !persistedUserRole) {
-            saveUserRoleToLocalStorage(userRole);
-        }
-    }, [userRole, persistedUserRole]);
+    const [role] = useLocalStorage<UserRole | null>('role', null);
 
     const appStructure = useRoutes([
         {
