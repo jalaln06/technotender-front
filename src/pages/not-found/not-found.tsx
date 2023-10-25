@@ -2,13 +2,13 @@ import React from 'react';
 import {Button, Result} from 'antd';
 import {useNavigate} from 'react-router-dom';
 
-import {useGetUserRoleQuery} from '../../store/services/auth/auth.api';
 import {UserRoleBasedMainPage} from '../../store/modules/auth/auth.slice.types';
+import {useAppSelector} from '../../hooks/store.hook';
+import {authSelectors} from '../../store/modules/auth/auth.slice';
 
 export const NotFound = () => {
     const navigate = useNavigate();
-    const {data: userRole} = useGetUserRoleQuery();
-
+    const userRole = useAppSelector(authSelectors.selectUserRole);
     return (
         <Result
             status="404"

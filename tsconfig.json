@@ -26,7 +26,7 @@
     "strictNullChecks": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "types": ["vite/client", "node", "vite-plugin-svgr/client"],
+    "types": ["vite/client"],
   },
   "include": [
     "src",
