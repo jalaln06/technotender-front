@@ -2,6 +2,7 @@ import {useRoutes} from 'react-router-dom';
 import {useLocalStorage} from 'usehooks-ts';
 
 import {CreateTenderPage} from './pages/create-tender';
+import {EditTenderPage} from './pages/edit-tender';
 import {AuthPage} from './pages/auth';
 import {Theme} from './theme';
 import {APP_URLS} from './constants/urls/urls.constants';
@@ -27,6 +28,10 @@ const UserRoleAwareRoutes = {
         {
             path: APP_URLS.CREATE_TENDER,
             element: <ProtectedRoute component={<CreateTenderPage />} />,
+        },
+        {
+            path: APP_URLS.EDIT_TENDER,
+            element: <ProtectedRoute component={<EditTenderPage />} />,
         },
     ],
     [UserRole.OWNER]: [

@@ -10,7 +10,7 @@ export enum APP_URLS {
     MY_TENDERS = '/my-tenders',
     VIEW_MY_TENDER = '/my-tenders/:id',
     CREATE_TENDER = '/create-tender',
-
+	EDIT_TENDER = '/edit-tender/:id',
 }
 
 export enum APP_URL_BLOCK {

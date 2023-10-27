@@ -4,7 +4,7 @@ import {Dayjs} from 'dayjs';
 
 import {EquipmentType} from '../../../core/models/equipment.model';
 import {baseQuery} from '../base-query';
-import {transformNumbersBeforeNotifying, transformTenderBeforeCreateRequest} from './tenders.utils';
+import {deleteIdBeforeCreateRequest, transformNumbersBeforeNotifying, transformTenderBeforeCreateRequest} from './tenders.utils';
 
 const TenderSchema = z.object({
     tenderId: z.number(),
@@ -35,6 +35,18 @@ export type Tender = z.infer<typeof TenderSchema>;
 export type TenderSubmission = z.infer<typeof TenderSchema>['submission'][0];
 
 export interface CreateTenderRequest {
+    tenderAddress: string;
+    tenderType?: string;
+    tenderTechType: EquipmentType;
+    tenderDescription: string;
+    tenderCompany?: string;
+    tenderStartTime: Dayjs;
+    tenderEndTime: Dayjs;
+    tenderAdditionalInfo?: string;
+}
+
+export interface UpdateTenderRequest {
+    tenderId: number;
     tenderAddress: string;
     tenderType?: string;
     tenderTechType: EquipmentType;
@@ -102,6 +114,15 @@ export const tendersApi = createApi({
             }),
             invalidatesTags: ['Tenders'],
         }),
+
+        updateTender: builder.mutation<any, UpdateTenderRequest>({
+            query: data => ({
+                url: `/${data.tenderId}`,
+                method: 'PUT',
+                body: deleteIdBeforeCreateRequest(data),
+            }),
+            invalidatesTags: ['Tenders'],
+        }),
     }),
 });
 
@@ -111,4 +132,5 @@ export const {
     useGetTenderByIdQuery,
     useCreateTenderMutation,
     useContactSubmissionAuthorMutation,
+    useUpdateTenderMutation,
 } = tendersApi;
