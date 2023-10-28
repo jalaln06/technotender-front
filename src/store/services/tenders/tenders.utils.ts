@@ -1,4 +1,7 @@
-import {ContactSubmissionAuthorRequest, CreateTenderRequest} from './tenders.api';
+import {ContactSubmissionAuthorRequest} from '../submissions/submissions.api';
+import {
+    CreateTenderRequest, FinishRenderRequest, UpdateTenderRequest,
+} from './tenders.api';
 
 export const transformTenderBeforeCreateRequest = (tender: CreateTenderRequest) => ({
     ...tender,
@@ -9,4 +12,16 @@ export const transformNumbersBeforeNotifying = (req: ContactSubmissionAuthorRequ
     ...req,
     tenderId: req.tenderId.toString(),
     userId: req.userId.toString(),
+});
+export const transformUpdateBeforeCreateRequest = (req: UpdateTenderRequest) => {
+    const {tenderId, ...rest} = req;
+    return {
+        ...rest,
+        tenderStartTime: req.tenderStartTime.format('YYYY-MM-DD'),
+        tenderEndTime: req.tenderStartTime.format('YYYY-MM-DD'),
+    };
+};
+export const transformNumbersBeforeFinishing = (req: FinishRenderRequest) => ({
+    ...req,
+    tenderId: req.tenderId.toString(),
 });
