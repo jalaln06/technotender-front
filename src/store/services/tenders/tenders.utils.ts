@@ -1,4 +1,7 @@
-import {ContactSubmissionAuthorRequest, CreateTenderRequest, UpdateTenderRequest} from './tenders.api';
+import {ContactSubmissionAuthorRequest} from '../submissions/submissions.api';
+import {
+    CreateTenderRequest, FinishRenderRequest, UpdateTenderRequest,
+} from './tenders.api';
 
 export const transformTenderBeforeCreateRequest = (tender: CreateTenderRequest) => ({
     ...tender,
@@ -18,3 +21,7 @@ export const deleteIdBeforeCreateRequest = (req: UpdateTenderRequest) => {
         tenderEndTime: req.tenderStartTime.format('YYYY-MM-DD'),
     };
 };
+export const transformNumbersBeforeFinishing = (req: FinishRenderRequest) => ({
+    ...req,
+    tenderId: req.tenderId.toString(),
+});

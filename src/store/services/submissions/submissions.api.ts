@@ -1,12 +1,18 @@
 import {createApi} from '@reduxjs/toolkit/query/react';
 
 import {baseQuery} from '../base-query';
+import {transformNumbersBeforeNotifying} from '../tenders/tenders.utils';
 
 export interface CreateSubmissionRequest {
     tenderId: number;
     machineModel: string;
     costDuty: number;
     submissionMessage?: string;
+}
+
+export interface ContactSubmissionAuthorRequest {
+    tenderId: number;
+    userId: number;
 }
 
 export const submissionsApi = createApi({
@@ -21,7 +27,14 @@ export const submissionsApi = createApi({
                 params: {tenderId},
             }),
         }),
+        contactSubmissionAuthor: builder.mutation<any, ContactSubmissionAuthorRequest>({
+            query: data => ({
+                url: '/notify',
+                method: 'POST',
+                body: transformNumbersBeforeNotifying(data),
+            }),
+        }),
     }),
 });
 
-export const {useCreateSubmissionMutation} = submissionsApi;
+export const {useCreateSubmissionMutation, useContactSubmissionAuthorMutation} = submissionsApi;

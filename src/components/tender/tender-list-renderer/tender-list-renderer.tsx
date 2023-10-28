@@ -13,9 +13,9 @@ export interface TenderListRendererProps<Tenders> {
 export const TenderListRenderer = <Tenders, >({
     tenders, isLoading, listItemRenderer, listIsEmpty,
 }: TenderListRendererProps<Tenders>) => (
-        <>
+    <>
             {tenders && !listIsEmpty && (
-                <Space
+        <Space
                     size={8}
                     className="tender-list"
                     direction="vertical"
@@ -24,10 +24,10 @@ export const TenderListRenderer = <Tenders, >({
                 </Space>
             )}
             {tenders && listIsEmpty && !isLoading && (
-                <Empty description="По данному запросу не найдено тендеров" />
+        <Empty description="По данному запросу не найдено тендеров" />
             )}
             {isLoading && (
-                <LoadingWrapper >
+        <LoadingWrapper >
                     <Skeleton active />
                     <Skeleton active />
                     <Skeleton active />

@@ -4,7 +4,8 @@ import {Dayjs} from 'dayjs';
 
 import {EquipmentType} from '../../../core/models/equipment.model';
 import {baseQuery} from '../base-query';
-import {deleteIdBeforeCreateRequest, transformNumbersBeforeNotifying, transformTenderBeforeCreateRequest} from './tenders.utils';
+// eslint-disable-next-line max-len
+import {deleteIdBeforeCreateRequest, transformTenderBeforeCreateRequest} from './tenders.utils';
 
 const TenderSchema = z.object({
     tenderId: z.number(),
@@ -57,9 +58,8 @@ export interface UpdateTenderRequest {
     tenderAdditionalInfo?: string;
 }
 
-export interface ContactSubmissionAuthorRequest {
+export interface FinishRenderRequest {
     tenderId: number;
-    userId: number;
 }
 
 export const tendersApi = createApi({
@@ -106,20 +106,19 @@ export const tendersApi = createApi({
             invalidatesTags: ['Tenders'],
         }),
 
-        contactSubmissionAuthor: builder.mutation<any, ContactSubmissionAuthorRequest>({
-            query: data => ({
-                url: '/notify',
-                method: 'POST',
-                body: transformNumbersBeforeNotifying(data),
-            }),
-            invalidatesTags: ['Tenders'],
-        }),
-
         updateTender: builder.mutation<any, UpdateTenderRequest>({
             query: data => ({
                 url: `/${data.tenderId}`,
                 method: 'PUT',
                 body: deleteIdBeforeCreateRequest(data),
+            }),
+            invalidatesTags: ['Tenders'],
+        }),
+
+        finishTender: builder.mutation<any, FinishRenderRequest>({
+            query: data => ({
+                url: `/${data.tenderId}/finish`,
+                method: 'PUT',
             }),
             invalidatesTags: ['Tenders'],
         }),
@@ -131,6 +130,6 @@ export const {
     useGetTendersByEquipmentTypeQuery,
     useGetTenderByIdQuery,
     useCreateTenderMutation,
-    useContactSubmissionAuthorMutation,
     useUpdateTenderMutation,
+    useFinishTenderMutation,
 } = tendersApi;
