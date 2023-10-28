@@ -13,7 +13,7 @@ export const transformNumbersBeforeNotifying = (req: ContactSubmissionAuthorRequ
     tenderId: req.tenderId.toString(),
     userId: req.userId.toString(),
 });
-export const deleteIdBeforeCreateRequest = (req: UpdateTenderRequest) => {
+export const transformUpdateBeforeCreateRequest = (req: UpdateTenderRequest) => {
     const {tenderId, ...rest} = req;
     return {
         ...rest,

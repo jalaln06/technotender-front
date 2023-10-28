@@ -5,7 +5,7 @@ import {Dayjs} from 'dayjs';
 import {EquipmentType} from '../../../core/models/equipment.model';
 import {baseQuery} from '../base-query';
 // eslint-disable-next-line max-len
-import {deleteIdBeforeCreateRequest, transformTenderBeforeCreateRequest} from './tenders.utils';
+import {transformUpdateBeforeCreateRequest, transformTenderBeforeCreateRequest} from './tenders.utils';
 
 const TenderSchema = z.object({
     tenderId: z.number(),
@@ -110,7 +110,7 @@ export const tendersApi = createApi({
             query: data => ({
                 url: `/${data.tenderId}`,
                 method: 'PUT',
-                body: deleteIdBeforeCreateRequest(data),
+                body: transformUpdateBeforeCreateRequest(data),
             }),
             invalidatesTags: ['Tenders'],
         }),
